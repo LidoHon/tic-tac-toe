@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"github.com/LidoHon/tic-tac-toe/internal/domain"
-
 )
 
 type GameUsecase struct {
@@ -19,5 +18,5 @@ func (u *GameUsecase) CheckGameStatus() domain.GameResult {
 }
 
 func (u *GameUsecase) SwitchTurn() {
-	u.Game.TurnPlayer = u.Game.TurnPlayer.Next()
+	u.Game.PlayerTurn = u.Game.PlayerTurn.Next()
 }

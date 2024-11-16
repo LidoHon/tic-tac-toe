@@ -8,7 +8,7 @@ import (
 
 
 func main() {
-	gameState := &domain.GameState{TurnPlayer: domain.Cross}
+	gameState := &domain.GameState{PlayerTurn: domain.Cross}
 	gameUsecase := &usecases.GameUsecase{Game: gameState}
 	cli := &interfaces.CLI{Usecase: gameUsecase}
 

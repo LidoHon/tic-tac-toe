@@ -2,16 +2,21 @@ package interfaces
 
 import (
 	"fmt"
+
 	"github.com/LidoHon/tic-tac-toe/internal/domain"
-	usecases "github.com/LidoHon/tic-tac-toe/internal/usecase"
+	"github.com/LidoHon/tic-tac-toe/internal/usecase"
 )
 
 // ANSI color codes
 const (
-	ResetColor = "\033[0m"
-	BlueColor  = "\033[34m" // Blue for Cross
-	RedColor   = "\033[31m" // Red for Circle
+	Reset = "\033[0m"
+	Blue  = "\033[34m" 
+	Red   = "\033[31m" 
 	BoardColor = "\033[37m" // White for the board lines
+	Yellow = "\033[33m"
+	Green = "\033[32m"
+	cyan = "\033[36m"
+	Purple = "\033[35m"
 )
 
 // CLI represents the command-line interface for the game
@@ -19,7 +24,6 @@ type CLI struct {
 	Usecase *usecases.GameUsecase
 }
 
-// DrawBoard displays the game board with ANSI colors
 // DrawBoard displays the game board with ANSI colors
 func (cli *CLI) DrawBoard() {
 	// Loop through each row of the board
@@ -29,22 +33,22 @@ func (cli *CLI) DrawBoard() {
 			// Print the square with appropriate colors
 			switch square {
 			case domain.None:
-				fmt.Print(BoardColor + "   " + ResetColor) // Empty square
+				fmt.Print(BoardColor + "   " + Reset) // Empty square
 			case domain.Cross:
-				fmt.Print(BlueColor + "X " + ResetColor)  // Player X (Cross)
+				fmt.Print(Green + " X " + Reset)  // Player X (Cross)
 			case domain.Circle:
-				fmt.Print(RedColor + "O " + ResetColor)   // Player O (Circle)
+				fmt.Print(Yellow + " O " + Reset)   // Player O (Circle)
 			}
 
 			// Print a column separator unless it's the last column in the row
 			if j < len(row)-1 {
-				fmt.Print(BoardColor + " | " + ResetColor) // Column separator
+				fmt.Print(Blue + " | " + Reset) // Column separator
 			}
 		}
 
 		// Print a row separator unless it's the last row
 		if i < len(cli.Usecase.Game.Board)-1 {
-			fmt.Print("\n" + BoardColor + " ---+-----+--- " + ResetColor) // Row separator
+			fmt.Print("\n" + Blue + " ---+-----+--- " + Reset) // Row separator
 		}
 
 		// Move to the next line after each row
@@ -62,14 +66,14 @@ func (cli *CLI) Start() {
 
 		// Display the current player with color
 		var currentPlayer string
-		if cli.Usecase.Game.TurnPlayer == domain.Cross {
-			currentPlayer = BlueColor + "Player Cross" + ResetColor
+		if cli.Usecase.Game.PlayerTurn == domain.Cross {
+			currentPlayer = Blue + "Player Cross" + Reset
 		} else {
-			currentPlayer = RedColor + "Player Circle" + ResetColor
+			currentPlayer = Purple + "Player Circle" + Reset
 		}
 
 		// Prompt the current player for their move
-		fmt.Printf("%s's turn. Enter row and column (1-3): ", currentPlayer)
+		fmt.Printf("%s's turn. Enter row and column by separating with space (1-3): ", currentPlayer)
 		var row, col int
 		fmt.Scan(&row, &col)
 
@@ -85,11 +89,11 @@ func (cli *CLI) Start() {
 			cli.DrawBoard()
 			switch result {
 			case domain.CrossWon:
-				fmt.Println(BlueColor + "Cross wins!" + ResetColor)
+				fmt.Println(Green + "Cross wins!" + Reset)
 			case domain.CircleWon:
-				fmt.Println(RedColor + "Circle wins!" + ResetColor)
+				fmt.Println(Green + "Circle wins!" + Reset)
 			case domain.Draw:
-				fmt.Println(BoardColor + "It's a draw!" + ResetColor)
+				fmt.Println(BoardColor + "It's a draw!" + Reset)
 			}
 			break
 		}

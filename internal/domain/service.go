@@ -1,6 +1,13 @@
 package domain
 
-// PlaceMark places a mark for the current player on the board
+
+type GameState struct {
+	Board      [3][3]Player 
+	PlayerTurn Player       
+}
+
+
+// PlaceMark 
 func (state *GameState) PlaceMark(row, col int) error {
 	if row < 0 || col < 0 || row >= len(state.Board) || col >= len(state.Board[row]) {
 		return &PositionOutOfBoundError{Row: row, Column: col}
@@ -9,11 +16,11 @@ func (state *GameState) PlaceMark(row, col int) error {
 		return &MarkAlreadyExistError{Row: row, Column: col}
 	}
 
-	state.Board[row][col] = state.TurnPlayer // Use Player type directly
+	state.Board[row][col] = state.PlayerTurn 
 	return nil
 }
 
-// CheckForWinner checks the current board state for a winner
+// CheckForWinner 
 func (state *GameState) CheckForWinner() GameResult {
 	// Lambda function to check a line on the board
 	checkLine := func(r, c, dr, dc int) GameResult {
